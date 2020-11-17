@@ -91,7 +91,7 @@ $(document).ready(function () {
 
   var menu = $("#menu ul > li");
 
-  menu.on("mouseenter", function (event) {
+  const menuShow = (event) => {
     var target = event.currentTarget;
 
     $(target).find(".ko_title").stop().animate({ top: "50px" }, 400);
@@ -101,19 +101,16 @@ $(document).ready(function () {
       .find(".icon")
       .stop()
       .animate({ bottom: "30px", opacity: "1" }, 300);
-  });
+  };
 
-  menu.on("mouseleave", function (event) {
+  const menuHide = (event) => {
     var target = event.currentTarget;
 
     $(target).find(".ko_title").stop().animate({ top: "100px" });
     $(target).find(".en_title").stop().animate({ top: "145px" });
     $(target).find(".desc").stop().animate({ top: "200px", opacity: "0" });
-    $(target)
-      .find(".icon")
-      .stop()
-      .anim41111ate({ bottom: "100px", opacity: "0" });
-  });
+    $(target).find(".icon").stop().animate({ bottom: "100px", opacity: "0" });
+  };
 
   // 메뉴
 
@@ -156,4 +153,66 @@ $(document).ready(function () {
         }
       );
   });
+  const getSadnwich = () => {
+    return fetch("http://localhost:3000/subway/sandwich", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res)
+      .then((res) => res.json());
+  };
+
+  const templateSandwichLabel = (label) => {
+    if (label) {
+      return `<div class="label">${label}</div>`;
+    } else {
+      return ``;
+    }
+  };
+
+  const templateSandwich = (sandwich) => {
+    const {
+      type,
+      label,
+      img,
+      ko_title,
+      en_title,
+      kcal,
+      summary,
+      view_id,
+    } = sandwich;
+
+    return `
+    <li class="${type}">
+      <a href="#">
+        ${templateSandwichLabel(label)}
+        <div class="img">
+          <img src="${img}" alt="치지 갈릭 미트볼"/>
+        </div>
+        <strong class="ko_title">${ko_title}</strong>
+        <span class="en_title">${en_title}</span>
+        <span class="kcal">${kcal}</span>
+        <p class="desc">${summary}</p>
+        <div class="icon" data-id="${view_id}"></div>
+      </a>
+    </li>
+    `;
+  };
+
+  const listSandwich = async () => {
+    const sandwiches = await getSadnwich();
+    const menu = document.getElementById("menu");
+    const menuWrap = menu.querySelector("ul");
+
+    for (const sandwich of sandwiches) {
+      const node = $(templateSandwich(sandwich))[0];
+      $(node).on(`mouseenter`, menuShow);
+      $(node).on(`mouseleave`, menuHide);
+      menuWrap.append(node);
+    }
+  };
+
+  listSandwich();
 });
