@@ -14,7 +14,7 @@
 
 #wrap > header {
   position: absolute;
-  z-index: 10;
+  z-index: 20;
   top: 0;
   left: 0;
   width: 100%;
@@ -126,7 +126,7 @@
 }
 
 #wrap > header nav > .gnb > ul > li:hover > .snb {
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 #wrap > header nav > .gnb > ul > li > a {
@@ -345,6 +345,7 @@
   height: 380px;
   background-color: #e85a1c;
   text-align: center;
+  overflow: hidden;
 }
 
 #wrap > section .main > .banner > h2 {
@@ -402,6 +403,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 615px;
 }
 
 #wrap > section #menu-tab > .content > ul > li {
@@ -421,6 +423,10 @@
 
 #wrap > section #menu-tab > .content > ul > li:last-child {
   color: #000000;
+}
+
+#wrap > section #menu-tab > .content > ul > li:last-child.active {
+  color: #e85a1c;
 }
 
 #wrap > section #menu-tab > .content > ul > li::after {
